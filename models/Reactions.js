@@ -2,7 +2,10 @@ const { model, Schema } = require('mongoose')
 
 const reactionsSchema = new Schema(
     {
-        reaction: String,
+        reaction: {
+            type: String,
+            required: true
+        },
     }
 )
 

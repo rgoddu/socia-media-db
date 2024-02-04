@@ -2,7 +2,10 @@ const { model, Schema } = require('mongoose')
 
 const thoughtsSchema = new Schema(
     {
-        content: String,
+        content: {
+            type: String,
+            required: true
+        },
         reactions: [
             {
                 type: Schema.Types.ObjectId,
