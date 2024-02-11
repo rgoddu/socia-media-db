@@ -2,6 +2,10 @@ const { model, Schema } = require('mongoose')
 
 const thoughtsSchema = new Schema(
     {
+        userId: {
+            type: Schema.Types.ObjectId,
+            required: true
+        },
         content: {
             type: String,
             required: true

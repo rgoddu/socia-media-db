@@ -1,33 +1,46 @@
-const {User, Thoughts} = require('../models')
+const { User, Thoughts } = require('../models')
 
 module.exports = {
 
-    async getAllThoughts(req, res){
-        try{
+    async getAllThoughts(req, res) {
+        try {
             const thoughts = await Thoughts.find()
             res.status(200).json(thoughts)
-        }catch(err){
+        } catch (err) {
             res.status(500).json(err)
         }
     },
 
-    async newUser(req,res){
-        try{
-            const thoughts = await Thoughts.create({
-                content: req.body.name,
-                content: req.body.name,
+    async newThought(req, res) {
+        try {
+            const newThought = await Thoughts.create({
+                userId: req.body.userId,
+                content: req.body.content
             })
-            res.status(200).json(users)
-        }catch(err){
+            const user = await User.findOneAndUpdate(
+                { _id: req.body.userId },
+                { $addToSet: { thoughts: newThought._id } },
+                { new: true }
+            )
+            if (!user) {
+                res.status(404).json({ message: 'no user found with that id' })
+            }
+            res.status(200).json(
+                { message: 'success' }
+                // newThought
+            )
+        } catch (err) {
             res.status(500).json(err)
         }
     },
 
-    async deleteUser(req, res){
-        try{
-            const users = await User.deleteOne({_id: req.params.id})
+    async deleteThought(req, res) {
+        try {
+            const users = await User.findOneAndUpdate(
+                { thoughts: req.params.id },
+                { $pull: { thoughts: req.params.id } }, { new: true })
             res.status(200).json(users)
-        }catch(err){
+        } catch (err) {
             res.status(500).json(err)
         }
     }

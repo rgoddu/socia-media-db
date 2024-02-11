@@ -1,13 +1,13 @@
 const router = require('express').Router();
-const { getAllUsers, deleteUser, newUser } = require('../../controllers/userController')
+const { getAllThoughts, newThought, deleteThought } = require('../../controllers/thoughtController')
 
-router.route('/').get(getAllUsers)
+router.route('/').get(getAllThoughts)
 
-router.route('/',).post(newUser)
+router.route('/',).post(newThought)
 // Route to create new user
 // request body:
 // {name: username}
 
-router.route('/:id',).delete(deleteUser)
+router.route('/:id').delete(deleteThought)
 
 module.exports = router
